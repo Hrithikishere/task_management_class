@@ -30,7 +30,8 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
     _getNewTaskList();
     super.initState();
   }
-
+  //TODO: Forgot Password => OTP Done
+  //TODO: Backward Refresh
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +102,7 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
                 } else {
                   return const CircularProgressIndicator();
                 }
+                return null;
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 8);
