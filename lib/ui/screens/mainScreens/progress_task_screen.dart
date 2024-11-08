@@ -32,8 +32,17 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
       body: Container(
         padding: const EdgeInsets.all(10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
+            Text('Progress Tasks',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(
+                    fontWeight: FontWeight.w600)),
+            const SizedBox(height: 10),
+
             _taskListSection(),
           ],
         ),
@@ -54,6 +63,7 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
               if (_getProgressTaskListInProgress == false) {
                 if (_progressTaskList.isNotEmpty) {
                   return TaskCard(
+                      id: _progressTaskList[index].id,
                       title: _progressTaskList[index].title,
                       description: _progressTaskList[index].description,
                       status: _progressTaskList[index].status);

@@ -32,9 +32,19 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       body: Container(
         padding: const EdgeInsets.all(10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 10,
+              height: 10
+            ),
+            Text('Completed Tasks',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(
+                    fontWeight: FontWeight.w600)),
+            const SizedBox(
+                height: 10
             ),
             _taskListSection()
           ],
@@ -57,6 +67,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
               if (_getCompletedTaskListInProgress == false) {
                 if (_newTaskList.isNotEmpty) {
                   return TaskCard(
+                      id: _newTaskList[index].id,
                       title: _newTaskList[index].title,
                       description: _newTaskList[index].description,
                       status: _newTaskList[index].status);

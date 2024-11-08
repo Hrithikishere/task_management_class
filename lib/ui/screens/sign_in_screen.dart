@@ -141,7 +141,6 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future<void> _signIn() async{
-
     FocusScope.of(context).unfocus();
     _inProgress = true;
     setState(() {});
@@ -158,7 +157,6 @@ class _SignInScreenState extends State<SignInScreen> {
     if(response.isSuccess){
       
       await AuthController.saveAccessToken(response.responseData['token']);
-      
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const MainBottomNavBarScreen()), (_)=>false);
     }else{
       showSnackBarMessage(context, response.errorMessage, true);

@@ -38,10 +38,11 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
       body: Container(
         padding: const EdgeInsets.all(10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _taskCountSection(),
             const SizedBox(
-              height: 15,
+              height: 15
             ),
             _taskListSection()
           ],
@@ -95,6 +96,7 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
                 if (_getNewTaskListInProgress == false) {
                   if (_newTaskList.isNotEmpty) {
                     return TaskCard(
+                        id: _newTaskList[index].id,
                         title: _newTaskList[index].title,
                         description: _newTaskList[index].description,
                         status: _newTaskList[index].status);

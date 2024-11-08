@@ -29,11 +29,22 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Container(
+
         padding: const EdgeInsets.all(10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
+            Text('Cancelled Tasks',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(
+                    fontWeight: FontWeight.w600)),
+            const SizedBox(height: 10),
+
             _taskListSection(),
           ],
         ),
@@ -54,6 +65,7 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
               if (_getCancelledTaskListInProgress == false) {
                 if (_cancelledTaskList.isNotEmpty) {
                   return TaskCard(
+                      id: _cancelledTaskList[index].id,
                       title: _cancelledTaskList[index].title,
                       description: _cancelledTaskList[index].description,
                       status: _cancelledTaskList[index].status);

@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthController{
 
   static const String _accessTokenKey = 'access-token';
+  static const String _userDataKey = 'user-data';
+
   static String? accessToken;
 
   static Future<void> saveAccessToken(String token) async {
