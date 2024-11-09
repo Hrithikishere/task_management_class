@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:task_management/data/models/login_model.dart';
 import 'package:task_management/data/models/network_response.dart';
+import 'package:task_management/data/models/user_model.dart';
 import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/data/utils/urls.dart';
 import 'package:task_management/ui/controllers/auth_controller.dart';
@@ -155,8 +157,10 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() {});
 
     if(response.isSuccess){
-      
+      // LoginModel loginModel = LoginModel.fromJson(response.responseData);
       await AuthController.saveAccessToken(response.responseData['token']);
+      await AuthController.saveUserData(UserModel.fromJson(response.responseData['data']));
+      _clearTextFields();
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const MainBottomNavBarScreen()), (_)=>false);
     }else{
       showSnackBarMessage(context, response.errorMessage, true);
@@ -186,6 +190,8 @@ class _SignInScreenState extends State<SignInScreen> {
     _emailTEController.clear();
     _passwordTEController.clear();
   }
+
+
 
   @override
   void dispose() {

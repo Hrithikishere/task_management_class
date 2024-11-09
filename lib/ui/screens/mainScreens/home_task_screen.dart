@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management/data/models/network_response.dart';
 import 'package:task_management/data/models/task_list_model.dart';
 import 'package:task_management/data/models/task_model.dart';
+import 'package:task_management/data/models/task_status_count_model.dart';
+import 'package:task_management/data/models/task_status_model.dart';
 import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/data/utils/urls.dart';
 import 'package:task_management/ui/utils/app_colors.dart';
@@ -22,12 +24,15 @@ class HomeTaskScreen extends StatefulWidget {
 
 class _HomeTaskScreenState extends State<HomeTaskScreen> {
   bool _getNewTaskListInProgress = false;
+  bool _getTaskStatusCountListInProgress = false;
   List<Task> _newTaskList = [];
+  List<TaskStatusModel> _taskStatusCountList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     _getNewTaskList();
+    _getTaskStatusCount();
     super.initState();
   }
   //TODO: Forgot Password => OTP Done
@@ -63,25 +68,17 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
   Widget _taskCountSection() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        TaskCountCard(
-          count: '9',
-          title: 'Total',
-        ),
-        TaskCountCard(
-          count: '6',
-          title: 'Completed',
-        ),
-        TaskCountCard(
-          count: '2',
-          title: 'Cancelled',
-        ),
-        TaskCountCard(
-          count: '1',
-          title: 'Pending',
-        ),
-      ],
+      children: _getTaskCountCard(),
     );
+  }
+
+  List<TaskCountCard> _getTaskCountCard(){
+
+    List<TaskCountCard> taskCountCardList = [];
+    for(TaskStatusModel task in _taskStatusCountList){
+      taskCountCardList.add(TaskCountCard(count: '${task.sum}', title: '${task.sId}'));
+    }
+    return taskCountCardList;
   }
 
   Widget _taskListSection() {
@@ -90,7 +87,11 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
         visible: !_getNewTaskListInProgress,
         replacement: const CenteredCircularProgressIndicator(),
         child: RefreshIndicator(
-          onRefresh: _getNewTaskList,
+          onRefresh:() async {
+            _getNewTaskList;
+            _getTaskStatusCount;
+            setState(() {});
+          },
           child: ListView.separated(
               itemBuilder: (context, index) {
                 if (_getNewTaskListInProgress == false) {
@@ -132,5 +133,21 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
 
     _getNewTaskListInProgress = false;
     setState(() {});
+  }
+
+  Future<void> _getTaskStatusCount() async {
+
+      _taskStatusCountList.clear();
+      _getTaskStatusCountListInProgress = true;
+      setState(() {});
+      final NetworkResponse response = await NetworkCaller.getRequest(url: Urls.taskStatusCount);
+      if(response.isSuccess){
+        final TaskStatusCountModel taskStatusCountModel = TaskStatusCountModel.fromJson(response.responseData);
+        _taskStatusCountList = taskStatusCountModel.taskStatusCountList ?? [];
+      }else{
+        showSnackBarMessage(context, response.errorMessage, true);
+      }
+      _getTaskStatusCountListInProgress = false;
+      setState(() {});
   }
 }
