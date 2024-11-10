@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:task_management/data/models/network_response.dart';
+import 'package:task_management/data/services/network_caller.dart';
+import 'package:task_management/ui/widgets/centeredCircularProgressIndicator.dart';
 import 'package:task_management/ui/widgets/screen_background.dart';
+import 'package:task_management/ui/widgets/show_snackbar_message.dart';
 
+import '../../data/utils/urls.dart';
 import '../utils/app_colors.dart';
 import 'forgot_password_otp_screen.dart';
 
@@ -13,6 +18,10 @@ class ForgotPasswordEmailScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
+
+  final TextEditingController _emailTEController = TextEditingController();
+  bool _inProgress = false;
+
   @override
   Widget build(BuildContext context) {
     TextTheme textThemeStyle = Theme.of(context).textTheme;
@@ -53,12 +62,21 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
     return Column(
       children: [
         TextFormField(
+          controller: _emailTEController,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(hintText: 'Email')),
+            decoration: const InputDecoration(hintText: 'Email'),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (String? value) {
+            if (value?.isEmpty ?? true) {
+              return 'Enter valid email';
+            }
+            return null;
+          },
+        ),
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: _onTapNextButton,
-          child: const Icon(Icons.arrow_forward_ios),
+          child: _inProgress ? const CenteredCircularProgressIndicator() : const Icon(Icons.arrow_forward_ios),
         ),
       ],
     );
@@ -92,16 +110,40 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
   }
 
   void _onTapNextButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => const ForgotPasswordOtpScreen(),
-      )
-    );
-    //TODO: Tap next button navigate to next screen
+    if(_emailTEController.text.isNotEmpty){
+      _verifyEmail();
+    }
+  }
+
+  Future<void> _verifyEmail() async {
+    _inProgress = true;
+    setState(() {});
+
+    String email = _emailTEController.text.trim();
+
+    NetworkResponse response = await NetworkCaller.getRequest(url: Urls.verifyEmail(email));
+    _inProgress = false;
+    setState(() {});
+
+    if (response.isSuccess) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ForgotPasswordOtpScreen(userEmail: email),
+          )
+      );
+    } else {
+      showSnackBarMessage(context, response.errorMessage, true);
+    }
   }
 
   void _onTapSignInButton() {
     Navigator.pop(context);
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    super.dispose();
   }
 }

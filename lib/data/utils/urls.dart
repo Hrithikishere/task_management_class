@@ -21,4 +21,12 @@ class Urls{
   static String deleteTask(String taskId){
     return '$_baseUrl/deleteTask/$taskId';
   }
+
+  static String verifyEmail(String email){
+    return '$_baseUrl/RecoverVerifyEmail/$email';
+  }
+
+  static String recoverVerifyOtp(String email, String otp){
+    return '$_baseUrl/RecoverVerifyOtp/$email/$otp';
+  }
 }
