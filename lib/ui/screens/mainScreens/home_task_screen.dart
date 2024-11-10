@@ -35,7 +35,6 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
     _getTaskStatusCount();
     super.initState();
   }
-  //TODO: Forgot Password => OTP Done
   //TODO: Backward Refresh
   @override
   Widget build(BuildContext context) {
