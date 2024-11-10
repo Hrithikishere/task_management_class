@@ -66,6 +66,7 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
                       id: _progressTaskList[index].id,
                       title: _progressTaskList[index].title,
                       description: _progressTaskList[index].description,
+                      createdDate: _progressTaskList[index].createdDate,
                       status: _progressTaskList[index].status);
                 }
               } else {

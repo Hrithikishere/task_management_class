@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:task_management/data/models/network_response.dart';
 import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/data/utils/urls.dart';
@@ -11,6 +12,7 @@ class TaskCard extends StatefulWidget {
     required this.title,
     required this.description,
     required this.status,
+    required this.createdDate,
     super.key,
   });
 
@@ -18,6 +20,7 @@ class TaskCard extends StatefulWidget {
   String title;
   String description;
   String status;
+  DateTime createdDate;
 
   @override
   State<TaskCard> createState() => _TaskCardState();
@@ -28,6 +31,13 @@ class _TaskCardState extends State<TaskCard> {
   String _selectedStatus = '';
   bool _changeStatusInProgress = false;
   bool _deleteTaskInProgress = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _selectedStatus = widget.status;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +61,7 @@ class _TaskCardState extends State<TaskCard> {
                     color: Colors.black45, fontSize: 12),
               ),
               const SizedBox(height: 4),
-              const Text("Date: 02/02/2020", style: TextStyle(color: Colors.black87, fontSize: 12)),
+              Text('Created Time: ${DateFormat(' yyyy-MM-dd – kk:mm').format(widget.createdDate)}', style: const TextStyle(color: Colors.black87, fontSize: 12)),
               const SizedBox(height: 6),
               Row(
                 children: [

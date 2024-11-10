@@ -17,7 +17,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailTEController = TextEditingController();
-  final TextEditingController _firtNameTEController = TextEditingController();
+  final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _phoneTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
@@ -73,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           const SizedBox(height: 10),
           TextFormField(
-            controller: _firtNameTEController,
+            controller: _firstNameTEController,
             autovalidateMode: _autoValidate
                 ? AutovalidateMode.onUserInteraction
                 : AutovalidateMode.disabled,
@@ -149,7 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {});
     Map<String, dynamic> requestBody = {
       "email": _emailTEController.text.trim(),
-      "firstName": _firtNameTEController.text.trim(),
+      "firstName": _firstNameTEController.text.trim(),
       "lastName": _lastNameTEController.text.trim(),
       "mobile": _phoneTEController.text.trim(),
       "password": _passwordTEController.text,
@@ -172,7 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _autoValidate = false;
       _formKey.currentState!.reset();
       _emailTEController.clear();
-      _firtNameTEController.clear();
+      _firstNameTEController.clear();
       _lastNameTEController.clear();
       _phoneTEController.clear();
       _passwordTEController.clear();
@@ -226,7 +226,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void dispose() {
     _emailTEController.dispose();
-    _firtNameTEController.dispose();
+    _firstNameTEController.dispose();
     _lastNameTEController.dispose();
     _phoneTEController.dispose();
     _passwordTEController.dispose();

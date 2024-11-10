@@ -68,6 +68,7 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
                       id: _cancelledTaskList[index].id,
                       title: _cancelledTaskList[index].title,
                       description: _cancelledTaskList[index].description,
+                      createdDate: _cancelledTaskList[index].createdDate,
                       status: _cancelledTaskList[index].status);
                 }
               } else {

@@ -21,14 +21,14 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
   final List<Widget> _screens = const [
     HomeTaskScreen(),
     ProgressTaskScreen(),
-    CancelledTaskScreen(),
     CompletedTaskScreen(),
+    CancelledTaskScreen(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const TMAppBar(),
+      appBar: TMAppBar(),
       body: _screens[_selectedIndex],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
@@ -38,9 +38,9 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
         },
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+          NavigationDestination(icon: Icon(Icons.sticky_note_2), label: "Progress"),
           NavigationDestination(icon: Icon(Icons.done), label: "Completed"),
           NavigationDestination(icon: Icon(Icons.cancel), label: "Cancelled"),
-          NavigationDestination(icon: Icon(Icons.sticky_note_2), label: "Progress"),
         ],
       ),
     );

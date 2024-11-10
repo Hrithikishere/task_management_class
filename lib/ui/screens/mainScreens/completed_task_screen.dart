@@ -70,6 +70,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                       id: _newTaskList[index].id,
                       title: _newTaskList[index].title,
                       description: _newTaskList[index].description,
+                      createdDate: _newTaskList[index].createdDate,
                       status: _newTaskList[index].status);
                 }
               } else {

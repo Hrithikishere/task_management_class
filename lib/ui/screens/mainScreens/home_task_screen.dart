@@ -100,6 +100,7 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
                         id: _newTaskList[index].id,
                         title: _newTaskList[index].title,
                         description: _newTaskList[index].description,
+                        createdDate: _newTaskList[index].createdDate,
                         status: _newTaskList[index].status);
                   }
                 } else {
