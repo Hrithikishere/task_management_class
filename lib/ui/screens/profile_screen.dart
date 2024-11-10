@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_management/data/models/network_response.dart';
+import 'package:task_management/data/models/user_model.dart';
 import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/ui/controllers/auth_controller.dart';
 import 'package:task_management/ui/widgets/show_snackbar_message.dart';
@@ -230,15 +231,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final NetworkResponse response = await NetworkCaller.postRequest(url: Urls.profileUpdate, body: requestBody);
     _inProgress = false;
+    setState(() {});
 
     if(response.isSuccess){
-      await AuthController.saveUserData(response.responseData);
+      UserModel userModel = UserModel.fromJson(requestBody);
+      await AuthController.clearUserData();
+      await AuthController.saveUserData(userModel);
       await AuthController.getUserData();
       showSnackBarMessage(context, 'Profile has been updated!');
     }else{
       showSnackBarMessage(context, response.errorMessage, true);
     }
     setState(() {});
+
   }
 
   Future<void> _pickImage() async{
