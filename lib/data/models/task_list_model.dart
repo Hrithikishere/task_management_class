@@ -12,11 +12,11 @@ class TaskListModel {
         required this.status,
     });
 
-    List<Task> taskList;
+    List<TaskModel> taskList;
     String status;
 
     factory TaskListModel.fromJson(Map<dynamic, dynamic> json) => TaskListModel(
-        taskList: List<Task>.from(json["data"].map((x) => Task.fromJson(x))),
+        taskList: List<TaskModel>.from(json["data"].map((x) => TaskModel.fromJson(x))),
         status: json["status"],
     );
 

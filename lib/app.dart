@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management/controller_binder.dart';
+import 'package:task_management/ui/screens/mainScreens/main_bottom_nav_bar_screen.dart';
 import 'package:task_management/ui/screens/splash_screen.dart';
 import 'package:task_management/ui/utils/app_colors.dart';
 
@@ -26,7 +27,8 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
       initialBinding: ControllerBinder(),
       initialRoute: '/',
       routes: {
-        '/' : (context)=> const SplashScreen(),
+        SplashScreen.name : (context)=> const SplashScreen(),
+        MainBottomNavBarScreen.name : (context) => const MainBottomNavBarScreen(),
       },
     );
   }

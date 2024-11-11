@@ -1,5 +1,5 @@
-class Task {
-  Task({
+class TaskModel {
+  TaskModel({
     required this.createdDate,
     required this.description,
     required this.id,
@@ -15,7 +15,7 @@ class Task {
   String email;
   String status;
 
-  factory Task.fromJson(Map<dynamic, dynamic> json) => Task(
+  factory TaskModel.fromJson(Map<dynamic, dynamic> json) => TaskModel(
     createdDate: DateTime.parse(json["createdDate"]),
     description: json["description"],
     id: json["_id"],
