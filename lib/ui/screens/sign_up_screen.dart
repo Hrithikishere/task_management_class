@@ -8,6 +8,9 @@ import 'package:task_management/ui/widgets/show_snackbar_message.dart';
 import '../utils/app_colors.dart';
 
 class SignUpScreen extends StatefulWidget {
+
+  static const String name = '/signUp';
+
   const SignUpScreen({super.key});
 
   @override
