@@ -22,7 +22,6 @@ class AuthController{
     String? userEncodeData = sharedPreferences.getString(_userDataKey);
     if(userEncodeData==null){
       return null;
-      print("user data null");
     }
     UserModel userModel = UserModel.fromJson(jsonDecode(userEncodeData));
     userData = userModel;
@@ -58,5 +57,10 @@ class AuthController{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
     accessToken = null;
+  }
+
+  static Future<void> clearUserProfileData() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.remove(_userDataKey);
   }
 }

@@ -100,8 +100,8 @@ class NetworkCaller {
     print('URL: $url\nRESPONSE CODE: ${response.statusCode}\nBODY: ${response.body}');
   }
 
-  static void _moveToLogin() async {
+  static Future<void> _moveToLogin() async {
     await AuthController.clearUserData();
-    Navigator.pushAndRemoveUntil(TaskManagerApp.navigatorKey.currentState! as BuildContext, MaterialPageRoute(builder: (context)=> const SignInScreen()), (predicate)=>false);
+    Navigator.pushAndRemoveUntil(TaskManagerApp.navigatorKey.currentContext!, MaterialPageRoute(builder: (context)=> const SignInScreen()), (predicate)=>false);
   }
 }
