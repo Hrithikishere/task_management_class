@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_management/ui/controllers/auth_controller.dart';
 import 'package:task_management/ui/screens/profile_screen.dart';
 
@@ -8,6 +9,9 @@ import '../screens/sign_in_screen.dart';
 import '../utils/app_colors.dart';
 
 class TMAppBar extends StatelessWidget implements PreferredSize {
+
+  final AuthController _authController = Get.find<AuthController>();
+
   TMAppBar({
     super.key,
     this.isProfileScreenOpen = false,
@@ -29,29 +33,44 @@ class TMAppBar extends StatelessWidget implements PreferredSize {
         backgroundColor: AppColors.themeColor,
         title: Row(
           children: [
-            CircleAvatar(
-              radius: 16,
-              backgroundColor: AppColors.onThemeColor,
-                backgroundImage: MemoryImage(base64Decode(AuthController.userData!.photo??'')),
+            GetBuilder(
+              init: _authController,
+              builder: (controller) {
+                return CircleAvatar(
+                  radius: 16,
+                  backgroundColor: AppColors.onThemeColor,
+                    backgroundImage: MemoryImage(base64Decode(_authController.userData!.photo??'')),
+                );
+              }
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    AuthController.userData?.fullName ?? '',
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                  GetBuilder(
+                      init: _authController,
+                      builder: (controller) {
+                      return Text(
+                        _authController.userData?.fullName ?? '',
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      );
+                    }
                   ),
-                  Text(
-                    AuthController.userData?.email ?? '',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: AppColors.onThemeColor,
-                    ),
+                  GetBuilder(
+                    init: _authController,
+                    builder: (controller) {
+                      return Text(
+                        _authController.userData?.email ?? '',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.onThemeColor,
+                        ),
+                      );
+                    }
                   ),
                 ],
               ),
@@ -67,7 +86,7 @@ class TMAppBar extends StatelessWidget implements PreferredSize {
   }
 
   void _onTapLogoutButton(BuildContext context) async {
-    await AuthController.clearUserData();
+    await _authController.clearUserData();
     Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const SignInScreen()),(predicate) => false);
   }
 

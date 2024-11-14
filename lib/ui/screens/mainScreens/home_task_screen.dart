@@ -8,6 +8,7 @@ import 'package:task_management/data/models/task_status_count_model.dart';
 import 'package:task_management/data/models/task_status_model.dart';
 import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/data/utils/urls.dart';
+import 'package:task_management/ui/controllers/auth_controller.dart';
 import 'package:task_management/ui/controllers/new_task_list_controller.dart';
 import 'package:task_management/ui/controllers/task_count_controller.dart';
 import 'package:task_management/ui/utils/app_colors.dart';
@@ -28,6 +29,7 @@ class HomeTaskScreen extends StatefulWidget {
 class _HomeTaskScreenState extends State<HomeTaskScreen> {
   final NewTaskListController _newTaskListController = Get.find<NewTaskListController>();
   final TaskCountListController _taskCountListController = Get.find<TaskCountListController>();
+  final AuthController _authController = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -100,6 +102,7 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
                 onRefresh: () async {
                   _getNewTaskList();
                   _getTaskStatusCount();
+                  await _authController.getUserData();
                 },
                 child: ListView.separated(
                     itemBuilder: (context, index) {

@@ -11,6 +11,8 @@ class SignInController extends GetxController{
   bool get inProgress => _inProgress;
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
+  final AuthController _authController = Get.find<AuthController>();
+
 
   Future<bool> signIn(String email, String password) async{
     bool isSuccess = false;
@@ -28,8 +30,8 @@ class SignInController extends GetxController{
 
     if(response.isSuccess){
       // LoginModel loginModel = LoginModel.fromJson(response.responseData);
-      await AuthController.saveAccessToken(response.responseData['token']);
-      await AuthController.saveUserData(UserModel.fromJson(response.responseData['data']));
+      await _authController.saveAccessToken(response.responseData['token']);
+      await _authController.saveUserData(UserModel.fromJson(response.responseData['data']));
       isSuccess = true;
     }else{
       _errorMessage = response.errorMessage;

@@ -26,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _passwordTEController = TextEditingController();
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final AuthController _authController = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -35,10 +36,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _setUserData(){
-    _emailTEController.text = AuthController.userData?.email ?? '';
-    _firstNameTEController.text = AuthController.userData?.firstName ?? '';
-    _lastNameTEController.text = AuthController.userData?.lastName ?? '';
-    _mobileTEController.text = AuthController.userData?.mobile ?? '';
+    _emailTEController.text = _authController.userData?.email ?? '';
+    _firstNameTEController.text = _authController.userData?.firstName ?? '';
+    _lastNameTEController.text = _authController.userData?.lastName ?? '';
+    _mobileTEController.text = _authController.userData?.mobile ?? '';
   }
 
   @override

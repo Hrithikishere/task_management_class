@@ -22,11 +22,13 @@ class ProfileController extends GetxController{
   XFile? selectedImage;
   // String selectedImageName = 'Select Photo';
 
+  final AuthController _authController = Get.find<AuthController>();
+
   void setUserData(){
-    userModel.email = AuthController.userData?.email ?? '';
-    userModel.firstName = AuthController.userData?.firstName ?? '';
-    userModel.lastName = AuthController.userData?.lastName ?? '';
-    userModel.mobile = AuthController.userData?.mobile ?? '';
+    userModel.email = _authController.userData?.email ?? '';
+    userModel.firstName = _authController.userData?.firstName ?? '';
+    userModel.lastName = _authController.userData?.lastName ?? '';
+    userModel.mobile = _authController.userData?.mobile ?? '';
   }
 
   void pickImage(XFile selectedImage){
@@ -64,12 +66,16 @@ class ProfileController extends GetxController{
     }
 
     final NetworkResponse response = await NetworkCaller.postRequest(url: Urls.profileUpdate, body: requestBody);
+    // final NetworkResponse responseProfile = await NetworkCaller.getRequest(url: Urls.profileDetails);
 
     if(response.isSuccess){
+      if(selectedImage==null){
+        requestBody["photo"] = _authController.userData?.photo!;
+      }
       UserModel userModel = UserModel.fromJson(requestBody);
-      await AuthController.clearUserProfileData();
-      await AuthController.saveUserData(userModel);
-      await AuthController.getUserData();
+      await _authController.clearUserProfileData();
+      await _authController.saveUserData(userModel);
+      await _authController.getUserData();
       isSuccess=true;
     }
 
