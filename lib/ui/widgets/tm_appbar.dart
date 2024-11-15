@@ -27,7 +27,8 @@ class TMAppBar extends StatelessWidget implements PreferredSize {
         if(isProfileScreenOpen){
           return;
         }
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> const ProfileScreen()));
+        Get.toNamed(ProfileScreen.name);
+        // Navigator.push(context, MaterialPageRoute(builder: (context)=> const ProfileScreen()));
       },
       child: AppBar(
         backgroundColor: AppColors.themeColor,

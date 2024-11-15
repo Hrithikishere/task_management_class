@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management/controller_binder.dart';
+import 'package:task_management/ui/screens/add_new_task_screen.dart';
+import 'package:task_management/ui/screens/forgot_password_email_screen.dart';
 import 'package:task_management/ui/screens/mainScreens/main_bottom_nav_bar_screen.dart';
+import 'package:task_management/ui/screens/profile_screen.dart';
 import 'package:task_management/ui/screens/sign_in_screen.dart';
 import 'package:task_management/ui/screens/sign_up_screen.dart';
 import 'package:task_management/ui/screens/splash_screen.dart';
@@ -32,6 +35,9 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
         SplashScreen.name : (context)=> const SplashScreen(),
         SignInScreen.name : (context)=> const SignInScreen(),
         SignUpScreen.name : (context)=> const SignUpScreen(),
+        AddNewTaskScreen.name : (context)=> const AddNewTaskScreen(),
+        ProfileScreen.name : (context)=> const ProfileScreen(),
+        ForgotPasswordEmailScreen.name : (context)=> const ForgotPasswordEmailScreen(),
         MainBottomNavBarScreen.name : (context) => const MainBottomNavBarScreen(),
       },
     );

@@ -98,12 +98,12 @@ class NetworkCaller {
   static void printRequest(
       {required String url, Map<String, dynamic>? body, required Map<String, dynamic> headers}) {
     debugPrint('REQUEST URL: $url\nBODY: $body\nHEADERS: $headers');
-    print('REQUEST URL: $url\nBODY: $body\nHEADERS: $headers');
+    // print('REQUEST URL: $url\nBODY: $body\nHEADERS: $headers');
   }
 
   static void printResponse(String url, http.Response response) {
-    // debugPrint('URL: $url\nRESPONSE CODE: ${response.statusCode}\nBODY: ${response.body}');
-    print('URL: $url\nRESPONSE CODE: ${response.statusCode}\nBODY: ${response.body}');
+    debugPrint('URL: $url\nRESPONSE CODE: ${response.statusCode}\nBODY: ${response.body}');
+    // print('URL: $url\nRESPONSE CODE: ${response.statusCode}\nBODY: ${response.body}');
   }
 
   static Future<void> _moveToLogin() async {

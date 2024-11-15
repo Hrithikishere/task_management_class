@@ -29,7 +29,7 @@ class AuthController extends GetxController{
     }
     UserModel userModel = UserModel.fromJson(jsonDecode(userEncodeData));
     _userData = userModel;
-    print(userData);
+    // print(userData);
     update();
     return userModel;
   }
@@ -48,9 +48,9 @@ class AuthController extends GetxController{
 
   Future<String?> getAccessToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? token = await sharedPreferences.getString(_accessTokenKey);
+    String? token = sharedPreferences.getString(_accessTokenKey);
     _accessToken = token;
-    print(token);
+    // print(token);
     return token;
   }
 

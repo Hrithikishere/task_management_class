@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_management/data/models/network_response.dart';
 import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/data/utils/urls.dart';
@@ -8,6 +9,9 @@ import 'package:task_management/ui/widgets/show_snackbar_message.dart';
 import '../utils/app_colors.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
+
+  static const String name = "/resetPassword";
+
   ResetPasswordScreen({super.key, required this.userEmail, required this.userOTP});
 
   String userEmail;
@@ -145,7 +149,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     _resetPassword();
   }
 
-
   Future<void> _resetPassword() async{
 
     _inProgress = true;
@@ -164,12 +167,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     if (response.isSuccess) {
       showSnackBarMessage(context, 'Password has been changed! Redirecting to sign in...');
       Future.delayed(const Duration(milliseconds: 1), () {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const SignInScreen(),
-            ),
-                (_) => false);
+        Get.offAllNamed(SignInScreen.name);
+        // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const SignInScreen(),),(_) => false);
       });
     } else {
       showSnackBarMessage(context, response.errorMessage, true);
@@ -178,10 +177,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
 
   void _onTapSignInButton() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const SignInScreen()),
-            (_) => false);
+    Get.offAllNamed(SignInScreen.name);
+    // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const SignInScreen()),(_) => false);
   }
 
   @override

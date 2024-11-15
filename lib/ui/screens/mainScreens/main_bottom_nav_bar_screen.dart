@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:task_management/ui/screens/add_new_task_screen.dart';
 import 'package:task_management/ui/screens/mainScreens/cancelled_task_screen.dart';
 import 'package:task_management/ui/screens/mainScreens/completed_task_screen.dart';
 import 'package:task_management/ui/screens/mainScreens/home_task_screen.dart';
 import 'package:task_management/ui/screens/mainScreens/progress_task_screen.dart';
-import 'package:task_management/ui/screens/profile_screen.dart';
-import 'package:task_management/ui/screens/sign_in_screen.dart';
-import 'package:task_management/ui/utils/app_colors.dart';
 import 'package:task_management/ui/widgets/tm_appbar.dart';
 
 class MainBottomNavBarScreen extends StatefulWidget {

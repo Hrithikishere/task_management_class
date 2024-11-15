@@ -28,7 +28,7 @@ class ProgressTaskListController extends GetxController{
     if (response.isSuccess) {
       final TaskListModel taskListModel =
       TaskListModel.fromJson(response.responseData);
-      _progressTaskList = taskListModel.taskList ?? [];
+      _progressTaskList = taskListModel.taskList;
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_management/data/models/network_response.dart';
 import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/ui/widgets/centeredCircularProgressIndicator.dart';
@@ -10,6 +11,9 @@ import '../utils/app_colors.dart';
 import 'forgot_password_otp_screen.dart';
 
 class ForgotPasswordEmailScreen extends StatefulWidget {
+
+  static const String name = "/forgotPasswordEmail";
+
   const ForgotPasswordEmailScreen({super.key});
 
   @override
@@ -126,19 +130,16 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
     setState(() {});
 
     if (response.isSuccess) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ForgotPasswordOtpScreen(userEmail: email),
-          )
-      );
+      // Get.toNamed(ForgotPasswordOtpScreen.name, arguments: email);
+      Navigator.push(context,MaterialPageRoute(builder: (context) => ForgotPasswordOtpScreen(userEmail: email),));
     } else {
       showSnackBarMessage(context, response.errorMessage, true);
     }
   }
 
   void _onTapSignInButton() {
-    Navigator.pop(context);
+    Get.back();
+    // Navigator.pop(context);
   }
 
   @override

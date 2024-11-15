@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:task_management/data/models/network_response.dart';
-import 'package:task_management/data/services/network_caller.dart';
-import 'package:task_management/data/utils/urls.dart';
+import 'package:task_management/ui/controllers/task_controller.dart';
 import 'package:task_management/ui/utils/app_colors.dart';
 import 'package:task_management/ui/widgets/show_snackbar_message.dart';
 
@@ -28,9 +27,12 @@ class TaskCard extends StatefulWidget {
 
 class _TaskCardState extends State<TaskCard> {
 
+  final TaskController _taskController = Get.find<TaskController>();
+
   String _selectedStatus = '';
-  bool _changeStatusInProgress = false;
-  bool _deleteTaskInProgress = false;
+  bool _inProgressUpdate = false;
+  bool _inProgressDelete = false;
+
 
   @override
   void initState() {
@@ -77,18 +79,28 @@ class _TaskCardState extends State<TaskCard> {
                         BorderRadius.circular(25),
                       )),
                   const Spacer(),
-                  IconButton(
-                      onPressed: _onTapEditButton,
-                      icon: _changeStatusInProgress ? const CircularProgressIndicator() : const Icon(
-                    Icons.edit_note,
-                    color: AppColors.themeColor,
-                  ),),
-                  IconButton(
-                      onPressed: _onTapDeleteButton,
-                      icon: _deleteTaskInProgress ? const CircularProgressIndicator() : Icon(
-                        Icons.delete_outline,
-                        color: Colors.red[500],
-                      )),
+                  GetBuilder(
+                    init: _taskController,
+                    builder: (controller) {
+                      return IconButton(
+                          onPressed: controller.inProgressUpdate ? null :_onTapEditButton,
+                          icon: _inProgressUpdate ? const CircularProgressIndicator() : const Icon(
+                        Icons.edit_note,
+                        color: AppColors.themeColor,
+                      ),);
+                    }
+                  ),
+                  GetBuilder(
+                    init: _taskController,
+                    builder: (controller) {
+                      return IconButton(
+                          onPressed: controller.inProgressDelete ? null : _onTapDeleteButton,
+                          icon: _inProgressDelete ? const CircularProgressIndicator() : Icon(
+                            Icons.delete_outline,
+                            color: Colors.red[500],
+                          ));
+                    }
+                  ),
                 ],
               )
             ],
@@ -131,18 +143,15 @@ class _TaskCardState extends State<TaskCard> {
   }
 
   Future<void> _onTapDeleteButton() async {
-    _deleteTaskInProgress = true;
+    _inProgressDelete = true;
     setState(() {});
-    final NetworkResponse response = await NetworkCaller.getRequest(
-        url: Urls.deleteTask(widget.id));
-    _deleteTaskInProgress = false;
-    if (response.isSuccess) {
-      setState(() {});
-      showSnackBarMessage(context, 'Task deleted! Please refresh to see changes');
+    final bool result = await _taskController.deleteTask(widget.id);
+    setState(() {});
+    _inProgressDelete = false;
+    if (result) {
+      showSnackBarMessage(context, 'Task deleted!');
     } else {
-      _deleteTaskInProgress = false;
-      setState(() {});
-      showSnackBarMessage(context, response.errorMessage, true);
+      showSnackBarMessage(context, _taskController.errorMessage!, true);
     }
   }
 
@@ -160,17 +169,15 @@ class _TaskCardState extends State<TaskCard> {
   }
 
   Future<void> _changeStatus(String newStatus) async {
-    _changeStatusInProgress = true;
+    _inProgressUpdate = false;
     setState(() {});
-    final NetworkResponse response = await NetworkCaller.getRequest(
-        url: Urls.changeStatus(widget.id, newStatus));
-    _changeStatusInProgress = false;
-    if (response.isSuccess) {
-      setState(() {});
-      showSnackBarMessage(context, 'Task status changed! Please refresh to see changes');
+    final bool result = await _taskController.changeStatus(widget.id, newStatus);
+    setState(() {});
+    _inProgressUpdate = false;
+    if (result) {
+      showSnackBarMessage(context, 'Task updated!');
     } else {
-      setState(() {});
-      showSnackBarMessage(context, response.errorMessage);
+      showSnackBarMessage(context, _taskController.errorMessage!, true);
     }
   }
 }

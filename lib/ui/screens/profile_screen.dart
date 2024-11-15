@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +7,9 @@ import 'package:task_management/ui/widgets/show_snackbar_message.dart';
 import 'package:task_management/ui/widgets/tm_appbar.dart';
 
 class ProfileScreen extends StatefulWidget {
+
+  static const String name = "/profile";
+
   const ProfileScreen({super.key});
 
 
@@ -145,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             init: ProfileController(),
             builder: (controller) {
               return ElevatedButton(
-                onPressed: onTapNextButton,
+                onPressed: controller.inProgress ? null : onTapNextButton,
                 child: controller.inProgress
                     ? const CircularProgressIndicator(
                     color: Colors.white, strokeWidth: 3)

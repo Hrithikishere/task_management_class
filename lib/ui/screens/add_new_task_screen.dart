@@ -5,6 +5,9 @@ import 'package:task_management/ui/widgets/show_snackbar_message.dart';
 import 'package:task_management/ui/widgets/tm_appbar.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
+
+  static const String name = "/addNewTask";
+
   const AddNewTaskScreen({super.key});
 
   @override
@@ -78,7 +81,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
             init: _addNewTaskController,
             builder: (controller) {
               return ElevatedButton(
-                  onPressed: _onTapSubmitButton,
+                  onPressed: controller.inProgress ? null : _onTapSubmitButton,
                   child: controller.inProgress ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 3) : const Icon(Icons.arrow_forward_ios));
             }
           ),

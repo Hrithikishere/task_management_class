@@ -1,12 +1,9 @@
 import 'package:get/get.dart';
 import 'package:task_management/data/models/network_response.dart';
-import 'package:task_management/data/models/task_list_model.dart';
-import 'package:task_management/data/models/task_model.dart';
 import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/data/utils/urls.dart';
 
-
-class NewTaskListController extends GetxController{
+class SignUpController extends GetxController{
 
   bool _inProgress = false;
   bool get inProgress=>_inProgress;
@@ -14,28 +11,28 @@ class NewTaskListController extends GetxController{
   String? _errorMessage;
   String? get errorMessage=>_errorMessage;
 
-  List<TaskModel> _newTaskList = [];
-  List<TaskModel> get newTaskList=>_newTaskList;
-
-  Future<bool> getNewTaskList() async {
+  Future<bool> signUp(String email, String firstName, String lastName, String mobile, String password) async {
     bool isSuccess = false;
-    _newTaskList.clear();
     _inProgress = true;
     update();
+    Map<String, dynamic> requestBody = {
+      "email": email,
+      "firstName": firstName,
+      "lastName": lastName,
+      "mobile": mobile,
+      "password": password,
+      "photo": "",
+    };
 
-    final NetworkResponse response =
-    await NetworkCaller.getRequest(url: Urls.newTaskList);
+    NetworkResponse response = await NetworkCaller.postRequest(url: Urls.registration, body: requestBody);
+
     if (response.isSuccess) {
-      final TaskListModel taskListModel =
-      TaskListModel.fromJson(response.responseData);
-      _newTaskList = taskListModel.taskList;
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
     }
     _inProgress = false;
     update();
-
     return isSuccess;
   }
 }

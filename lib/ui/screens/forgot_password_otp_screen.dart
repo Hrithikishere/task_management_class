@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:task_management/data/models/network_response.dart';
@@ -6,7 +7,6 @@ import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/data/utils/urls.dart';
 import 'package:task_management/ui/screens/reset_password_screen.dart';
 import 'package:task_management/ui/screens/sign_in_screen.dart';
-import 'package:task_management/ui/screens/sign_up_screen.dart';
 import 'package:task_management/ui/widgets/centeredCircularProgressIndicator.dart';
 import 'package:task_management/ui/widgets/screen_background.dart';
 import 'package:task_management/ui/widgets/show_snackbar_message.dart';
@@ -14,6 +14,9 @@ import 'package:task_management/ui/widgets/show_snackbar_message.dart';
 import '../utils/app_colors.dart';
 
 class ForgotPasswordOtpScreen extends StatefulWidget {
+
+  static const String name = "/forgotPasswordOtp";
+
   ForgotPasswordOtpScreen({super.key, required this.userEmail});
 
   String userEmail;
@@ -152,23 +155,15 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
     setState(() {});
 
     if (response.isSuccess) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ResetPasswordScreen(userEmail: widget.userEmail, userOTP: otp,),
-          ),
-              (_) => false);
+      Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => ResetPasswordScreen(userEmail: widget.userEmail, userOTP: otp,),),(_) => false);
     } else {
       showSnackBarMessage(context, response.errorMessage, true);
     }
   }
 
-
   void _onTapSignInButton() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const SignInScreen()),
-        (_) => false);
+    Get.offAllNamed(SignInScreen.name);
+    // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const SignInScreen()),(_) => false);
   }
 
   @override

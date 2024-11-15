@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_management/data/models/login_model.dart';
-import 'package:task_management/data/models/network_response.dart';
-import 'package:task_management/data/models/user_model.dart';
-import 'package:task_management/data/services/network_caller.dart';
-import 'package:task_management/data/utils/urls.dart';
-import 'package:task_management/ui/controllers/auth_controller.dart';
 import 'package:task_management/ui/controllers/sign_in_controllers.dart';
 import 'package:task_management/ui/screens/forgot_password_email_screen.dart';
 import 'package:task_management/ui/screens/mainScreens/main_bottom_nav_bar_screen.dart';
@@ -101,7 +95,7 @@ class _SignInScreenState extends State<SignInScreen> {
             init: signInController,
             builder: (controller) {
               return ElevatedButton(
-                onPressed: _onTapNextButton,
+                onPressed: controller.inProgress ? null : _onTapNextButton,
                 child: controller.inProgress ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 3) : const Icon(Icons.arrow_forward_ios),
               );
             }
@@ -167,21 +161,13 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _onTapForgotPasswordButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ForgotPasswordEmailScreen(),
-      ),
-    );
+    Get.toNamed(ForgotPasswordEmailScreen.name);
+    // Navigator.push(context,MaterialPageRoute(builder: (context) => const ForgotPasswordEmailScreen(),),);
   }
 
   void _onTapSignUpButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SignUpScreen(),
-      ),
-    );
+    Get.toNamed(SignUpScreen.name);
+    // Navigator.push(context,MaterialPageRoute(builder: (context) => const SignUpScreen(),),);
   }
 
   void _clearTextFields(){
@@ -189,8 +175,6 @@ class _SignInScreenState extends State<SignInScreen> {
     _emailTEController.clear();
     _passwordTEController.clear();
   }
-
-
 
   @override
   void dispose() {

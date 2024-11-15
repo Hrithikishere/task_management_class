@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:task_management/data/models/network_response.dart';
-import 'package:task_management/data/models/task_list_model.dart';
-import 'package:task_management/data/models/task_model.dart';
-import 'package:task_management/data/models/task_status_count_model.dart';
 import 'package:task_management/data/models/task_status_model.dart';
-import 'package:task_management/data/services/network_caller.dart';
-import 'package:task_management/data/utils/urls.dart';
 import 'package:task_management/ui/controllers/auth_controller.dart';
 import 'package:task_management/ui/controllers/new_task_list_controller.dart';
 import 'package:task_management/ui/controllers/task_count_controller.dart';
-import 'package:task_management/ui/utils/app_colors.dart';
 import 'package:task_management/ui/widgets/centeredCircularProgressIndicator.dart';
 import 'package:task_management/ui/widgets/show_snackbar_message.dart';
 import 'package:task_management/ui/widgets/task_card.dart';
@@ -62,8 +54,9 @@ class _HomeTaskScreenState extends State<HomeTaskScreen> {
   }
 
   void _onTapFloatingActionButton() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const AddNewTaskScreen()));
+    // Navigator.push(context,
+    //     MaterialPageRoute(builder: (context) => const AddNewTaskScreen()));
+    Get.toNamed(AddNewTaskScreen.name);
   }
 
   Widget _taskCountSection() {

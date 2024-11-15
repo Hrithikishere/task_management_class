@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:task_management/data/models/network_response.dart';
 import 'package:task_management/data/services/network_caller.dart';
 import 'package:task_management/data/utils/urls.dart';
+import 'package:task_management/ui/controllers/new_task_list_controller.dart';
+import 'package:task_management/ui/controllers/task_count_controller.dart';
 
 class AddNewTaskController extends GetxController{
 
@@ -14,6 +16,9 @@ class AddNewTaskController extends GetxController{
 
   String? _errorMessage;
   String? get errorMessage=>_errorMessage;
+
+  final NewTaskListController _newTaskListController = Get.find<NewTaskListController>();
+  final TaskCountListController _taskCountListController = Get.find<TaskCountListController>();
 
   Future<bool> addNewTask(String title, String description) async {
     bool isSuccess = false;
@@ -31,6 +36,8 @@ class AddNewTaskController extends GetxController{
 
     if(response.isSuccess){
       isSuccess = true;
+      _newTaskListController.getNewTaskList();
+      _taskCountListController.getTaskStatusCount();
     }else{
       _errorMessage = response.errorMessage;
     }

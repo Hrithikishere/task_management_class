@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:task_management/data/models/network_response.dart';
-import 'package:task_management/data/services/network_caller.dart';
-import 'package:task_management/data/utils/urls.dart';
+import 'package:get/get.dart';
+import 'package:task_management/ui/controllers/sign_up_controller.dart';
+import 'package:task_management/ui/screens/sign_in_screen.dart';
 import 'package:task_management/ui/widgets/screen_background.dart';
 import 'package:task_management/ui/widgets/show_snackbar_message.dart';
 import '../utils/app_colors.dart';
@@ -18,13 +17,16 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+
+  final SignUpController _signUpController = Get.find<SignUpController>();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _phoneTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
-  bool _inProgress = false;
+
   bool _autoValidate = true;
 
   @override
@@ -135,12 +137,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
             },
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: _onTapNextButton,
-            child: _inProgress
-                ? const CircularProgressIndicator(
-                color: Colors.white, strokeWidth: 3)
-                : const Icon(Icons.arrow_forward_ios),
+          GetBuilder(
+            init: _signUpController,
+            builder: (controller) {
+              return ElevatedButton(
+                onPressed: _signUpController.inProgress ? null : _onTapNextButton,
+                child: _signUpController.inProgress
+                    ? const CircularProgressIndicator(
+                    color: Colors.white, strokeWidth: 3)
+                    : const Icon(Icons.arrow_forward_ios),
+              );
+            }
           ),
         ],
       ),
@@ -148,25 +155,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _signUp() async {
-    _inProgress = true;
-    setState(() {});
-    Map<String, dynamic> requestBody = {
-      "email": _emailTEController.text.trim(),
-      "firstName": _firstNameTEController.text.trim(),
-      "lastName": _lastNameTEController.text.trim(),
-      "mobile": _phoneTEController.text.trim(),
-      "password": _passwordTEController.text,
-      "photo": "",
-    };
-    NetworkResponse response =
-    await NetworkCaller.postRequest(url: Urls.registration, body: requestBody);
-    _inProgress = false;
-    setState(() {});
-    if (response.isSuccess) {
+
+    final bool result = await _signUpController.signUp(_emailTEController.text.trim(), _firstNameTEController.text.trim(), _lastNameTEController.text.trim(), _phoneTEController.text.trim(), _passwordTEController.text);
+
+    if (result) {
       _clearTextFields();
-      showSnackBarMessage(context, "New user created!");
+      showSnackBarMessage(context, "New user created! Redirecting to Sign in...");
+      Future.delayed(const Duration(seconds: 1), () => Get.toNamed(SignInScreen.name),);
+
     } else {
-      showSnackBarMessage(context, response.errorMessage, true);
+      showSnackBarMessage(context, _signUpController.errorMessage!, true);
     }
   }
 
@@ -219,11 +217,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
     _signUp();
-    // TODO: Tap next button navigate to next screen
   }
 
   void _onTapSignInButton() {
-    Navigator.pop(context);
+    Get.back();
+    // Navigator.pop(context);
   }
 
   @override

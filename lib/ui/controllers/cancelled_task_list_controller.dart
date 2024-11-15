@@ -28,7 +28,7 @@ class CancelledTaskListController extends GetxController{
     if (response.isSuccess) {
       final TaskListModel taskListModel =
       TaskListModel.fromJson(response.responseData);
-      _cancelledTaskList = taskListModel.taskList ?? [];
+      _cancelledTaskList = taskListModel.taskList;
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
